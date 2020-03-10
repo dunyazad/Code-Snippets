@@ -8,6 +8,8 @@ using namespace std::chrono;
 #include <vector>
 using namespace std;
 
+#include <mutex>
+
 class StopWatchElement
 {
 public:
@@ -29,7 +31,8 @@ class StopWatch
 {
 private:
 	static StopWatch s_instance;
-	static map<string, StopWatchElement*> s_stopwatches;
+	static map<string, StopWatchElement*> s_stopWatches;
+	static mutex s_stopWatchesLock;
 
 	StopWatch();
 	~StopWatch();

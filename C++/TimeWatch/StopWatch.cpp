@@ -13,6 +13,7 @@ StopWatchElement::~StopWatchElement()
 
 void StopWatchElement::Start()
 {
+	m_times.clear();
 	m_times.push_back(chrono::system_clock::now());
 }
 
@@ -44,7 +45,8 @@ void StopWatchElement::Reset()
 }
 
 StopWatch StopWatch::s_instance;
-map<string, StopWatchElement*> StopWatch::s_stopwatches;
+map<string, StopWatchElement*> StopWatch::s_stopWatches;
+mutex StopWatch::s_stopWatchesLock;
 
 StopWatch::StopWatch()
 {
@@ -56,24 +58,28 @@ StopWatch::~StopWatch()
 
 StopWatchElement* StopWatch::GetStopWatch(const string& key)
 {
-	if (s_stopwatches.count(key) == 0)
+	lock_guard<mutex> lock(s_stopWatchesLock);
+	
+	if (s_stopWatches.count(key) == 0)
 	{
 		return nullptr;
 	}
 	else
 	{
-		return s_stopwatches[key];
+		return s_stopWatches[key];
 	}
 }
 
 StopWatchElement* StopWatch::SetStopWatch(const string& key, StopWatchElement* pStopWatch)
 {
-	if (s_stopwatches.count(key) != 0)
+	lock_guard<mutex> lock(s_stopWatchesLock);
+
+	if (s_stopWatches.count(key) != 0)
 	{
-		delete s_stopwatches[key];
+		delete s_stopWatches[key];
 	}
 
-	s_stopwatches[key] = pStopWatch;
+	s_stopWatches[key] = pStopWatch;
 	return pStopWatch;
 }
 
