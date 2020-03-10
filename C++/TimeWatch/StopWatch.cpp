@@ -16,23 +16,23 @@ void StopWatchElement::Start()
 	m_times.push_back(chrono::system_clock::now());
 }
 
-pair<float, float> StopWatchElement::Touch()
+pair<double, double> StopWatchElement::Touch()
 {
 	m_times.push_back(chrono::system_clock::now());
 	m_fromBegin = m_times[m_times.size() - 1] - m_times[0];
 	m_fromLast = m_times[m_times.size() - 1] - m_times[m_times.size() - 2];
-	float fromBegin = float(std::chrono::duration_cast<std::chrono::milliseconds>(m_fromBegin).count()) / 1000;
-	float fromLast = float(std::chrono::duration_cast<std::chrono::milliseconds>(m_fromLast).count()) / 1000;
+	double fromBegin = double(std::chrono::duration_cast<std::chrono::nanoseconds>(m_fromBegin).count()) / 1000000000.0;
+	double fromLast = double(std::chrono::duration_cast<std::chrono::nanoseconds>(m_fromLast).count()) / 1000000000.0;
 	return make_pair(fromBegin, fromLast);
 }
 
-pair<float, float> StopWatchElement::Stop()
+pair<double, double> StopWatchElement::Stop()
 {
 	m_times.push_back(chrono::system_clock::now());
 	m_fromBegin = m_times[m_times.size() - 1] - m_times[0];
 	m_fromLast = m_times[m_times.size() - 1] - m_times[m_times.size() - 2];
-	float fromBegin = float(std::chrono::duration_cast<std::chrono::milliseconds>(m_fromBegin).count()) / 1000;
-	float fromLast = float(std::chrono::duration_cast<std::chrono::milliseconds>(m_fromLast).count()) / 1000;
+	double fromBegin = double(std::chrono::duration_cast<std::chrono::nanoseconds>(m_fromBegin).count()) / 1000000000.0;
+	double fromLast = double(std::chrono::duration_cast<std::chrono::nanoseconds>(m_fromLast).count()) / 1000000000.0;
 	cout << fromBegin << " from beginning" << endl;
 	cout << fromLast << " from last" << endl;
 	return make_pair(fromBegin, fromLast);
@@ -88,7 +88,7 @@ void StopWatch::Start(const string& key)
 	pStopWatch->Start();
 }
 
-pair<float, float> StopWatch::Touch(const string& key)
+pair<double, double> StopWatch::Touch(const string& key)
 {
 	auto pStopWatch = GetStopWatch(key);
 
@@ -100,7 +100,7 @@ pair<float, float> StopWatch::Touch(const string& key)
 	return pStopWatch->Touch();
 }
 
-pair<float, float> StopWatch::Stop(const string& key)
+pair<double, double> StopWatch::Stop(const string& key)
 {
 	auto pStopWatch = GetStopWatch(key);
 

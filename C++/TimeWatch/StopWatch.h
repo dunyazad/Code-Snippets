@@ -15,8 +15,8 @@ public:
 	~StopWatchElement();
 
 	void Start();
-	pair<float, float> Touch();
-	pair<float, float> Stop();
+	pair<double, double> Touch();
+	pair<double, double> Stop();
 	void Reset();
 
 private:
@@ -39,7 +39,7 @@ private:
 
 public:
 	static void Start(const string& key);
-	static pair<float, float> Touch(const string& key);
-	static pair<float, float> Stop(const string& key);
+	static pair<double, double> Touch(const string& key);
+	static pair<double, double> Stop(const string& key);
 	static void Reset(const string& key);
 };
