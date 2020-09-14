@@ -8,7 +8,8 @@ class Console
 {
 	static Console* sConsole;
 
-	static std::string log;
+	//static std::string log;
+	static bool sInitialized;
 
 	Console() {}
 
@@ -25,19 +26,25 @@ public:
 				posX, posY, 800, verticalSize, SWP_SHOWWINDOW );
 
 			sConsole = new Console();
+			sInitialized = true;
 		}
 	}
 
 	static void terminate()
 	{
-		delete sConsole;
-		sConsole = NULL;
+		if (sInitialized)
+		{
+			delete sConsole;
+			sConsole = NULL;
 
-		FreeConsole();
+			FreeConsole();
+		}
 	}
 
 	static void OutLog(char *str, ...)
 	{
+		if (sInitialized == false) return;
+
 		char msg[1024];
 
 		va_list va;
@@ -53,6 +60,8 @@ public:
 
 	static void OutLogString(char *str, ...)
 	{
+		if (sInitialized == false) return;
+
 		char msg[1024];
 
 		va_list va;
@@ -73,3 +82,4 @@ public:
 };
 
 Console* Console::sConsole = 0;
+bool Console::sInitialized = false;
