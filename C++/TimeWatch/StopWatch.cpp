@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-StopWatchElement::StopWatchElement()
+StopWatchElement::StopWatchElement(const string& name) : m_name(name)
 {
 }
 
@@ -34,8 +34,8 @@ pair<double, double> StopWatchElement::Stop()
 	m_fromLast = m_times[m_times.size() - 1] - m_times[m_times.size() - 2];
 	double fromBegin = double(std::chrono::duration_cast<std::chrono::nanoseconds>(m_fromBegin).count()) / 1000000000.0;
 	double fromLast = double(std::chrono::duration_cast<std::chrono::nanoseconds>(m_fromLast).count()) / 1000000000.0;
-	cout << fromBegin << " from beginning" << endl;
-	cout << fromLast << " from last" << endl;
+	cout << m_name << " : " << fromBegin << " from beginning" << endl;
+	cout << m_name << " : " << fromLast << " from last" << endl;
 	return make_pair(fromBegin, fromLast);
 }
 
@@ -96,7 +96,7 @@ void StopWatch::Start(const string& key)
 	auto pStopWatch = GetStopWatch(key);
 
 	if (pStopWatch == nullptr) {
-		pStopWatch = SetStopWatch(key, new StopWatchElement);
+		pStopWatch = SetStopWatch(key, new StopWatchElement(key));
 	}
 
 	pStopWatch->Start();
@@ -107,7 +107,7 @@ pair<double, double> StopWatch::Touch(const string& key)
 	auto pStopWatch = GetStopWatch(key);
 
 	if (pStopWatch == nullptr) {
-		pStopWatch = SetStopWatch(key, new StopWatchElement);
+		pStopWatch = SetStopWatch(key, new StopWatchElement(key));
 		pStopWatch->Start();
 	}
 	
@@ -119,7 +119,7 @@ pair<double, double> StopWatch::Stop(const string& key)
 	auto pStopWatch = GetStopWatch(key);
 
 	if (pStopWatch == nullptr) {
-		pStopWatch = SetStopWatch(key, new StopWatchElement);
+		pStopWatch = SetStopWatch(key, new StopWatchElement(key));
 		pStopWatch->Start();
 	}
 
@@ -131,7 +131,7 @@ void StopWatch::Reset(const string& key)
 	auto pStopWatch = GetStopWatch(key);
 
 	if (pStopWatch == nullptr) {
-		pStopWatch = SetStopWatch(key, new StopWatchElement);
+		pStopWatch = SetStopWatch(key, new StopWatchElement(key));
 		pStopWatch->Start();
 	}
 

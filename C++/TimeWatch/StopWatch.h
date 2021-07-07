@@ -13,7 +13,7 @@ using namespace std;
 class StopWatchElement
 {
 public:
-	StopWatchElement();
+	StopWatchElement(const string& name);
 	~StopWatchElement();
 
 	void Start();
@@ -22,6 +22,7 @@ public:
 	void Reset();
 
 private:
+    string m_name;
 	vector<system_clock::time_point> m_times;
 	duration<double> m_fromBegin;
 	duration<double> m_fromLast;
