@@ -1,0 +1,33 @@
+vtkNew<vtkPoints> points;
+points->InsertNextPoint(-128.0f, -240.0f, 0.0f);
+points->InsertNextPoint(128.0f, -240.0f, 0.0f);
+points->InsertNextPoint(128.0f, 240.0f, 0.0f);
+points->InsertNextPoint(-128.0f, 240.0f, 0.0f);
+
+vtkNew<vtkPolygon> polygon;
+polygon->GetPointIds()->SetNumberOfIds(4);
+polygon->GetPointIds()->SetId(0, 0);
+polygon->GetPointIds()->SetId(1, 1);
+polygon->GetPointIds()->SetId(2, 2);
+polygon->GetPointIds()->SetId(3, 3);
+
+vtkNew<vtkCellArray> polygons;
+polygons->InsertNextCell(polygon);
+
+vtkNew<vtkPolyData> polyData;
+polyData->SetPoints(points);
+polyData->SetPolys(polygons);
+
+vtkNew<vtkPolyDataMapper> mapper;
+mapper->SetInputData(polyData);
+
+vtkNew<vtkActor> actor;
+actor->SetMapper(mapper);
+planeActor = actor;
+
+vtkNew<vtkTransform> transform;
+transform->Scale(0.1f, 0.1f, 0.1f);
+
+actor->SetUserTransform(transform);
+
+renderer->AddActor(actor);
